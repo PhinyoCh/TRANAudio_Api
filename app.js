@@ -3,6 +3,7 @@ const bodyParser = require("body-Parser");
 const { append } = require("express/lib/response");
 const app = express();
 
+
 const server = app.listen(3000, function() {
     console.log("Ready on port %d", server.address().port);
 })
@@ -13,3 +14,9 @@ app.use(
             extended: false
         })
 )
+
+//require API
+var LoginAPI = require("./api/Login");
+
+//use API
+app.use("/Login",LoginAPI);
