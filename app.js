@@ -17,6 +17,8 @@ app.use(
 
 //require API
 var LoginAPI = require("./api/Login");
+var GetRoomDataAPI = require("./api/GetRoomData");
 
 //use API
 app.use("/Login",LoginAPI);
+app.use("/GetRoomData",GetRoomDataAPI);
