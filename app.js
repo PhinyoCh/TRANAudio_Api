@@ -1,12 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-Parser");
-const { append } = require("express/lib/response");
 const app = express();
+const {createServer} = require("http");
+const {Server} = require("socket.io");
+const logger = require("morgan")
 
-
-const server = app.listen(3000, function() {
+//listening port
+const server = app.listen(5000, function() {
     console.log("Ready on port %d", server.address().port);
 })
+
+app.use(logger("dev"));
 
 app.use(bodyParser.json());
 app.use(
@@ -18,7 +22,20 @@ app.use(
 //require API
 var LoginAPI = require("./api/Login");
 var GetRoomDataAPI = require("./api/GetRoomData");
+var ConnectionAPI = require("./api/Connection");
 
 //use API
-app.use("/Login",LoginAPI);
-app.use("/GetRoomData",GetRoomDataAPI);
+//app.use("/Login",LoginAPI);
+//app.use("/GetRoomData",GetRoomDataAPI);
+app.use("/Connection", ConnectionAPI)
+
+//Socket
+const httpServer = createServer();
+const io = new Server(httpServer, {
+  cors:{origin:"*"}
+});
+
+io.on("connection", (socket) => {
+  console.log("socket on!!");
+});
+

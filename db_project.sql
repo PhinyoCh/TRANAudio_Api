@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: May 20, 2022 at 04:15 PM
+-- Generation Time: May 20, 2022 at 04:25 PM
 -- Server version: 8.0.27
 -- PHP Version: 7.4.26
 
@@ -24,28 +24,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `member`
---
-
-DROP TABLE IF EXISTS `member`;
-CREATE TABLE IF NOT EXISTS `member` (
-  `member_id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL,
-  `s_name` varchar(50) NOT NULL,
-  `l_name` varchar(50) NOT NULL,
-  `user_role` int NOT NULL,
-  `active` int NOT NULL,
-  `create_by` int NOT NULL,
-  `create_date` datetime NOT NULL,
-  `update_by` int NOT NULL,
-  `update_date` datetime NOT NULL,
-  PRIMARY KEY (`member_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `room`
 --
 
@@ -54,14 +32,36 @@ CREATE TABLE IF NOT EXISTS `room` (
   `room_id` int NOT NULL AUTO_INCREMENT,
   `room_name` varchar(50) NOT NULL,
   `mac_address` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `ip_address` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `ip_address` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `floor` int NOT NULL,
-  `active` int NOT NULL,
+  `active` int NOT NULL COMMENT '0=ไม่ใช้งาน, 1=ใช้งาน',
   `create_by` int NOT NULL,
   `create_date` datetime NOT NULL,
   `update_by` int NOT NULL,
   `update_date` datetime NOT NULL,
   PRIMARY KEY (`room_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(30) NOT NULL,
+  `password` varchar(30) NOT NULL,
+  `s_name` varchar(50) NOT NULL,
+  `l_name` varchar(50) NOT NULL,
+  `user_role` int NOT NULL COMMENT '1=admin, 2=staff',
+  `active` int NOT NULL COMMENT '0=ไม่ใช้งาน, 1=ใช้งาน ',
+  `create_by` int NOT NULL,
+  `create_date` datetime NOT NULL,
+  `update_by` int NOT NULL,
+  `update_date` datetime NOT NULL,
+  PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb3;
 COMMIT;
 
