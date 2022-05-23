@@ -1,8 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-Parser");
 const app = express();
-const {createServer} = require("http");
-const {Server} = require("socket.io");
 const logger = require("morgan")
 
 //listening port
@@ -21,21 +19,27 @@ app.use(
 
 //require API
 var LoginAPI = require("./api/Login");
-var GetRoomDataAPI = require("./api/GetRoomData");
+var RoomDataAPI = require("./api/ManageRoomData");
 var ConnectionAPI = require("./api/Connection");
+const { emit } = require("nodemon");
 
 //use API
 //app.use("/Login",LoginAPI);
-//app.use("/GetRoomData",GetRoomDataAPI);
+app.use("/RoomData",RoomDataAPI);
 app.use("/Connection", ConnectionAPI)
 
 //Socket
-const httpServer = createServer();
-const io = new Server(httpServer, {
-  cors:{origin:"*"}
-});
+const io = require("socket.io")(server, { cors: { origin: "*" } });
 
-io.on("connection", (socket) => {
-  console.log("socket on!!");
+io.on("connection", (client) => {
+  client.on("data", function(resp,){
+    let IP = JSON.stringify(resp.ip_address)
+    console.log(IP);
+  });
+  
+
+  client.on("disconnect", (response) => {
+    console.log('Client Disconnectd...');
+  })
 });
 
